@@ -7,7 +7,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "local-only-change-me")
 DEBUG = os.getenv("DJANGO_DEBUG", "0") == "1"
 ALLOWED_HOSTS = [host.strip() for host in os.getenv("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1").split(",") if host.strip()]
+RENDER_HOSTNAME = os.getenv("RENDER_EXTERNAL_HOSTNAME", "").strip()
+if RENDER_HOSTNAME and RENDER_HOSTNAME not in ALLOWED_HOSTS:
+    ALLOWED_HOSTS.append(RENDER_HOSTNAME)
 CSRF_TRUSTED_ORIGINS = [origin.strip() for origin in os.getenv("DJANGO_CSRF_TRUSTED_ORIGINS", "").split(",") if origin.strip()]
+if RENDER_HOSTNAME:
+    CSRF_TRUSTED_ORIGINS.append(f"https://{RENDER_HOSTNAME}")
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -46,11 +51,17 @@ WSGI_APPLICATION = "garden_site.wsgi.application"
 
 
 def database_config():
-    """Read DATABASE_URL; use the coursework SQLite file when it is absent."""
+    """Read a provider URL, tolerating a pasted `psql '…'` command."""
     url = os.getenv("DATABASE_URL", "").strip()
     if not url:
         return {"default": {"ENGINE": "django.db.backends.sqlite3", "NAME": BASE_DIR / "data" / "garden.sqlite3"}}
+    if url.lower().startswith("psql "):
+        url = url[5:].strip()
+    url = url.strip("'\"").strip()
+    if url.startswith("postgresql+psycopg://"):
+        url = url.replace("postgresql+psycopg://", "postgresql://", 1)
     parsed = urlparse(url)
+    # Render and several PostgreSQL providers still issue the legacy postgres:// form.
     if parsed.scheme in {"postgres", "postgresql"}:
         query_options = parse_qs(parsed.query)
         options = {"sslmode": query_options.get("sslmode", ["require"])[0]}
@@ -69,7 +80,7 @@ def database_config():
     if parsed.scheme == "sqlite":
         name = unquote(parsed.path)
         return {"default": {"ENGINE": "django.db.backends.sqlite3", "NAME": name or BASE_DIR / "data" / "garden.sqlite3"}}
-    raise ValueError("DATABASE_URL must use postgresql:// or sqlite://")
+    raise ValueError("DATABASE_URL must use postgres://, postgresql://, or sqlite://")
 
 
 DATABASES = database_config()
