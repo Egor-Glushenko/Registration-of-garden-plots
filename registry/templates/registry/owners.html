@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block title %}Владельцы — Садовый реестр{% endblock %}
+{% block content %}
+<section class="page-intro"><p class="eyebrow">РЕЕСТР / 02</p><h1>Владельцы</h1><p>Контактные сведения и обязательства по участкам.</p></section>
+<div class="table-wrap"><table class="table registry-table"><thead><tr><th>ФИО</th><th>Телефон</th><th>Электронная почта</th><th>Участков</th><th class="text-end">Задолженность</th></tr></thead><tbody>{% for owner in owners %}<tr><td class="row-link">{{ owner.full_name }}</td><td>{{ owner.phone }}</td><td>{{ owner.email|default:'—' }}</td><td>{{ owner.plot_count }}</td><td class="text-end">{{ owner.total_debt|floatformat:0 }} ₽</td></tr>{% empty %}<tr><td colspan="5"><div class="table-empty">В реестре пока нет владельцев.</div></td></tr>{% endfor %}</tbody></table></div>
+{% endblock %}

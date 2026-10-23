@@ -1,0 +1,6 @@
+{% extends 'base.html' %}{% load registry_labels %}
+{% block title %}Участок №{{ plot.plot_number }} — Садовый реестр{% endblock %}
+{% block content %}
+<section class="page-intro"><p class="eyebrow"><a href="{% url 'registry:plots' %}">УЧАСТКИ</a> / КАРТОЧКА</p><h1>Участок № {{ plot.plot_number }}</h1><p>Карточка участка и связанная информация о владельце.</p></section>
+<div class="detail-grid"><article class="detail-panel"><p class="eyebrow">ПАРАМЕТРЫ</p><dl><div><dt>Площадь</dt><dd>{{ plot.area_sqm|floatformat:0 }} м²</dd></div><div><dt>Статус</dt><dd><span class="status-pill status-{{ plot.status }}">{{ plot.status|status_label }}</span></dd></div><div><dt>Задолженность</dt><dd>{{ plot.debt|floatformat:0 }} ₽</dd></div><div><dt>Дата регистрации</dt><dd>{{ plot.created_at|date:'d.m.Y'|default:'—' }}</dd></div></dl></article><article class="detail-panel owner-panel"><p class="eyebrow">ВЛАДЕЛЕЦ</p>{% if plot.owner_name %}<h2>{{ plot.owner_name }}</h2><p>{{ plot.owner_phone }}</p><p>{{ plot.owner_email|default:'Электронная почта не указана' }}</p>{% else %}<h2>Владелец не назначен</h2><p>Участок доступен для закрепления.</p>{% endif %}<a class="text-link" href="{% url 'registry:owners' %}">Все владельцы <span>→</span></a></article></div>
+{% endblock %}

@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: garden-plot-registry
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python manage.py migrate --noinput && python manage.py setup_registry && python manage.py collectstatic --noinput && gunicorn garden_site.wsgi:application
+    healthCheckPath: /
+    plan: free
+    envVars:
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
+      - key: DJANGO_DEBUG
+        value: "0"
+      - key: DJANGO_ALLOWED_HOSTS
+        value: .onrender.com
+      - key: DATABASE_URL
+        sync: false

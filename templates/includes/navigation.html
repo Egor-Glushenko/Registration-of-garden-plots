@@ -1,0 +1,15 @@
+<header class="site-header">
+  <nav class="container navbar navbar-expand-lg">
+    <a class="brand" href="{% url 'home:index' %}"><span class="brand-mark">С</span><span>САДОВЫЙ РЕЕСТР<small>УЧЁТ ТЕРРИТОРИИ</small></span></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#site-nav" aria-label="Открыть меню"><span class="navbar-toggler-icon"></span></button>
+    <div class="collapse navbar-collapse justify-content-end" id="site-nav">
+      <div class="navbar-nav">
+        <a class="nav-link" href="{% url 'home:index' %}">Обзор</a>
+        <a class="nav-link" href="{% url 'registry:plots' %}">Участки</a>
+        <a class="nav-link" href="{% url 'registry:owners' %}">Владельцы</a>
+        <a class="nav-link" href="{% url 'registry:payments' %}">Платежи</a>
+        <a class="nav-link" href="{% url 'registry:statistics' %}">Статистика</a>
+      </div>
+    </div>
+  </nav>
+</header>

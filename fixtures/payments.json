@@ -1,0 +1,4 @@
+[
+  {"id": 1, "owner_id": 1, "amount": 4500, "payment_date": "2026-02-01", "description": "Членский взнос", "created_at": "2026-02-01T09:00:00"},
+  {"id": 2, "owner_id": 2, "amount": 3200, "payment_date": "2026-02-12", "description": "Целевой взнос", "created_at": "2026-02-12T09:00:00"}
+]

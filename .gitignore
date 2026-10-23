@@ -1,0 +1,23 @@
+# Python / Django
+__pycache__/
+*.py[cod]
+*.sqlite3
+staticfiles/
+.venv/
+venv/
+env/
+.env
+.env.*
+!.env.example
+*.log
+
+# Personal source records and generated reports; keep local source data private.
+data/*.json
+data/*.txt
+data/*.sqlite
+
+# Editors and OS files
+.vscode/
+.idea/
+Thumbs.db
+Desktop.ini

@@ -1,0 +1,4 @@
+[
+  {"id": 1, "full_name": "Александр Иванов", "phone": "+7 900 000-00-01", "email": "ivanov@example.org", "created_at": "2026-01-12T10:00:00"},
+  {"id": 2, "full_name": "Мария Петрова", "phone": "+7 900 000-00-02", "email": "petrova@example.org", "created_at": "2026-01-15T12:00:00"}
+]

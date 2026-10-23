@@ -1,0 +1,5 @@
+{% extends 'base.html' %}
+{% block title %}Страница не найдена — Садовый реестр{% endblock %}
+{% block content %}
+<section class="empty-state text-center"><p class="eyebrow">ОШИБКА 404</p><h1>Страница не найдена</h1><p>Проверьте адрес или вернитесь к обзору реестра.</p><a class="btn btn-primary" href="{% url 'home:index' %}">На главную</a></section>
+{% endblock %}
