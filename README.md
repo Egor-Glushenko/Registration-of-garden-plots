@@ -134,26 +134,6 @@
 3. Миграция `registry.0002_transfer_legacy_sql_data` читает `owners`, `plots`, `payments` и создаёт записи моделей с сохранением идентификаторов и внешних ключей; на чистой базе шаг пропускается.
 4. Все дальнейшие изменения структуры выполняются только миграциями Django.
 
-## Запуск локально
-
-```bash
-python -m venv .venv
-# Windows
-.venv\Scripts\activate
-# Linux/macOS
-source .venv/bin/activate
-
-pip install -r requirements.txt
-python manage.py migrate
-python manage.py setup_registry       # демонстрационные данные через ORM
-python manage.py createsuperuser      # доступ к /admin/
-python manage.py runserver
-```
-
-Файлы `sql/*.sql`, `db/database.py` и `db/import_json.py` сохранены как реализация ПР7. При необходимости её можно воспроизвести командой `python manage.py legacy_sql_import` на отдельной базе.
-
-Команда `setup_registry` берёт данные сначала из локального каталога `data/`, затем из `fixtures/`. Ключ `--source fixtures` явно импортирует только обезличенный демонстрационный набор, а `--source data` — только локальные записи. Строки, у которых отсутствует связанный владелец или участок, пропускаются с предупреждением, поэтому внешние ключи не нарушаются.
-
 ## Проверки
 
 ```bash
