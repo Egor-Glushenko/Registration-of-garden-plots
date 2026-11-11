@@ -9,13 +9,24 @@ from db.database import initialize_schema
 ROOT = Path(__file__).resolve().parent.parent
 
 
-def read_records(name):
+def read_records(name, source=None):
+    """Read a data file: private data/ first, then the demo fixtures/.
+
+    ``source="fixtures"`` or ``source="data"`` forces one location, which keeps
+    the import of logically related entities consistent.
+    """
     private_file = ROOT / "data" / f"{name}.json"
     demo_file = ROOT / "fixtures" / f"{name}.json"
-    source = private_file if private_file.exists() else demo_file
-    if not source.exists():
+    if source == "fixtures":
+        candidates = [demo_file]
+    elif source == "data":
+        candidates = [private_file]
+    else:
+        candidates = [private_file, demo_file]
+    path = next((item for item in candidates if item.exists()), None)
+    if path is None:
         return []
-    with source.open(encoding="utf-8") as stream:
+    with path.open(encoding="utf-8") as stream:
         return json.load(stream)
 
 
