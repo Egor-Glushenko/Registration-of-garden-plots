@@ -15,6 +15,13 @@
 <body>
   {% include 'includes/navigation.html' %}
   <main class="container page-shell">
+    {% if messages %}
+      <div class="message-stack">
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags|default:'info' }} message-item" role="status">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
     {% block content %}{% endblock %}
   </main>
   <footer class="site-footer"><div class="container">Садовый реестр <span>·</span> учёт и прозрачность</div></footer>

@@ -1,9 +1,12 @@
 """Settings for the garden plot registry."""
 import os
+import sys
 from pathlib import Path
 from urllib.parse import parse_qs, unquote, urlparse
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+# The manifest static storage needs collectstatic output, which tests do not build.
+TESTING = "pytest" in sys.modules or "test" in sys.argv
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "local-only-change-me")
 DEBUG = os.getenv("DJANGO_DEBUG", "0") == "1"
 ALLOWED_HOSTS = [host.strip() for host in os.getenv("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1").split(",") if host.strip()]
@@ -91,8 +94,19 @@ USE_TZ = True
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_DIRS = [BASE_DIR / "static"]
+# Uploaded plot images (PR11, subsection 5.6).
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
+# Files above the form limit are rejected before they reach the model.
+FILE_UPLOAD_MAX_MEMORY_SIZE = 5 * 1024 * 1024
 STORAGES = {
     "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
-    "staticfiles": {"BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage"},
+    "staticfiles": {
+        "BACKEND": (
+            "django.contrib.staticfiles.storage.StaticFilesStorage"
+            if DEBUG or TESTING
+            else "whitenoise.storage.CompressedManifestStaticFilesStorage"
+        ),
+    },
 }
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

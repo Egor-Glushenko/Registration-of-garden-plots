@@ -2,7 +2,7 @@
 Менеджер данных: связывает модели и хранилище.
 """
 from typing import List, Optional
-from models import Owner, Plot, Payment, VALID_STATUSES, STATUS_LABELS
+from models import Owner, Plot, Payment
 from storage import FileStorage
 
 

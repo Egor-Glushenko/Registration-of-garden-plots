@@ -10,6 +10,11 @@ env/
 .env.*
 !.env.example
 *.log
+media/
+.pytest_cache/
+.flake8
+.coverage
+htmlcov/
 
 # Personal source records and generated reports; keep local source data private.
 data/*.json

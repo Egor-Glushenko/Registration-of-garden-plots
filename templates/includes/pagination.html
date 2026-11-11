@@ -1,0 +1,24 @@
+{% if page_obj.paginator.num_pages > 1 %}
+<nav class="pager" aria-label="Постраничная навигация">
+  <p class="pager-info">Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }} · записей: {{ page_obj.paginator.count }}</p>
+  <ul class="pager-list">
+    {% if page_obj.has_previous %}
+      <li><a class="pager-link" href="?{% if querystring %}{{ querystring }}&{% endif %}page={{ page_obj.previous_page_number }}">← Назад</a></li>
+    {% else %}
+      <li><span class="pager-link is-disabled">← Назад</span></li>
+    {% endif %}
+    {% for number in page_obj.paginator.page_range %}
+      {% if number == page_obj.number %}
+        <li><span class="pager-link is-current">{{ number }}</span></li>
+      {% elif number > page_obj.number|add:-3 and number < page_obj.number|add:3 %}
+        <li><a class="pager-link" href="?{% if querystring %}{{ querystring }}&{% endif %}page={{ number }}">{{ number }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if page_obj.has_next %}
+      <li><a class="pager-link" href="?{% if querystring %}{{ querystring }}&{% endif %}page={{ page_obj.next_page_number }}">Вперёд →</a></li>
+    {% else %}
+      <li><span class="pager-link is-disabled">Вперёд →</span></li>
+    {% endif %}
+  </ul>
+</nav>
+{% endif %}

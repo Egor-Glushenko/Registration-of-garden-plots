@@ -1,4 +1,10 @@
 [
-  {"id": 1, "owner_id": 1, "amount": 4500, "payment_date": "2026-02-01", "description": "Членский взнос", "created_at": "2026-02-01T09:00:00"},
-  {"id": 2, "owner_id": 2, "amount": 3200, "payment_date": "2026-02-12", "description": "Целевой взнос", "created_at": "2026-02-12T09:00:00"}
+  {"id": 1, "owner_id": 1, "amount": 6000, "payment_date": "2026-09-12", "description": "Членский взнос за 2026 год", "created_at": "2026-09-12T10:00:00"},
+  {"id": 2, "owner_id": 2, "amount": 4500, "payment_date": "2026-09-20", "description": "Членский взнос, частичная оплата", "created_at": "2026-09-20T11:20:00"},
+  {"id": 3, "owner_id": 3, "amount": 7200, "payment_date": "2026-10-02", "description": "Членский взнос за 2026 год", "created_at": "2026-10-02T09:40:00"},
+  {"id": 4, "owner_id": 4, "amount": 3400, "payment_date": "2026-10-11", "description": "Погашение задолженности за 2025 год", "created_at": "2026-10-11T12:05:00"},
+  {"id": 5, "owner_id": 5, "amount": 5000, "payment_date": "2026-10-19", "description": "Членский взнос за 2026 год", "created_at": "2026-10-19T14:30:00"},
+  {"id": 6, "owner_id": 6, "amount": 4800, "payment_date": "2026-10-27", "description": "Членский взнос, частичная оплата", "created_at": "2026-10-27T15:10:00"},
+  {"id": 7, "owner_id": 2, "amount": 1250, "payment_date": "2026-11-03", "description": "Погашение задолженности по участку 14", "created_at": "2026-11-03T10:15:00"},
+  {"id": 8, "owner_id": 1, "amount": 2400, "payment_date": "2026-11-09", "description": "Целевой взнос на водопровод", "created_at": "2026-11-09T16:45:00"}
 ]

@@ -39,7 +39,10 @@ def import_json():
                     ON CONFLICT (id) DO UPDATE SET plot_number = EXCLUDED.plot_number,
                         area_sqm = EXCLUDED.area_sqm, status = EXCLUDED.status,
                         owner_id = EXCLUDED.owner_id, debt = EXCLUDED.debt
-                """, [plot["id"], plot["plot_number"], plot["area_sqm"], plot["status"], plot.get("owner_id"), plot.get("debt", 0), plot.get("created_at")])
+                """, [
+                    plot["id"], plot["plot_number"], plot["area_sqm"], plot["status"],
+                    plot.get("owner_id"), plot.get("debt", 0), plot.get("created_at"),
+                ])
             for payment in payments:
                 cursor.execute("""
                     INSERT INTO payments (id, owner_id, amount, payment_date, description, created_at)
@@ -47,5 +50,8 @@ def import_json():
                     ON CONFLICT (id) DO UPDATE SET owner_id = EXCLUDED.owner_id,
                         amount = EXCLUDED.amount, payment_date = EXCLUDED.payment_date,
                         description = EXCLUDED.description
-                """, [payment["id"], payment["owner_id"], payment["amount"], payment["payment_date"], payment["description"], payment.get("created_at")])
+                """, [
+                    payment["id"], payment["owner_id"], payment["amount"],
+                    payment["payment_date"], payment["description"], payment.get("created_at"),
+                ])
     return {"owners": len(owners), "plots": len(plots), "payments": len(payments)}

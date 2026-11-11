@@ -1,4 +1,8 @@
 [
-  {"id": 1, "full_name": "Александр Иванов", "phone": "+7 900 000-00-01", "email": "ivanov@example.org", "created_at": "2026-01-12T10:00:00"},
-  {"id": 2, "full_name": "Мария Петрова", "phone": "+7 900 000-00-02", "email": "petrova@example.org", "created_at": "2026-01-15T12:00:00"}
+  {"id": 1, "full_name": "Иванова Мария Петровна", "phone": "+7 916 240-11-08", "email": "m.ivanova@example.org", "created_at": "2026-01-12T10:00:00"},
+  {"id": 2, "full_name": "Петров Сергей Николаевич", "phone": "+7 925 771-42-19", "email": "s.petrov@example.org", "created_at": "2026-01-15T12:00:00"},
+  {"id": 3, "full_name": "Кузнецова Ольга Андреевна", "phone": "+7 903 118-77-64", "email": "o.kuznetsova@example.org", "created_at": "2026-02-03T09:30:00"},
+  {"id": 4, "full_name": "Соколов Дмитрий Игоревич", "phone": "+7 985 302-56-40", "email": "d.sokolov@example.org", "created_at": "2026-02-19T14:15:00"},
+  {"id": 5, "full_name": "Морозова Анна Сергеевна", "phone": "+7 910 455-90-12", "email": "a.morozova@example.org", "created_at": "2026-03-05T11:40:00"},
+  {"id": 6, "full_name": "Волков Артём Денисович", "phone": "+7 926 640-03-87", "email": "", "created_at": "2026-03-21T16:05:00"}
 ]

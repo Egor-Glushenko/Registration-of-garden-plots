@@ -6,9 +6,9 @@
   <div class="row g-0 metric-row">
     <div class="col-6 col-lg-3"><article class="metric"><span>Участки</span><strong>{{ stats.plot_count|default:0 }}</strong><small>в реестре</small></article></div>
     <div class="col-6 col-lg-3"><article class="metric"><span>Владельцы</span><strong>{{ stats.owner_count|default:0 }}</strong><small>зарегистрировано</small></article></div>
-    <div class="col-6 col-lg-3"><article class="metric"><span>Платежи</span><strong>{{ stats.payment_count|default:0 }}</strong><small>операций</small></article></div>
+    <div class="col-6 col-lg-3"><article class="metric"><span>Аренды</span><strong>{{ stats.lease_count|default:0 }}</strong><small>действующих</small></article></div>
     <div class="col-6 col-lg-3"><article class="metric metric-accent"><span>Задолженность</span><strong>{{ stats.total_debt|default:0|floatformat:0 }} ₽</strong><small>по участкам</small></article></div>
   </div>
 </section>
-<section class="section-block directory-strip"><div><p class="eyebrow">РАЗДЕЛЫ</p><h2>Данные реестра</h2></div><div class="directory-links"><a href="{% url 'registry:plots' %}"><span>01</span> Участки <b>↗</b></a><a href="{% url 'registry:owners' %}"><span>02</span> Владельцы <b>↗</b></a><a href="{% url 'registry:payments' %}"><span>03</span> Платежи <b>↗</b></a></div></section>
+<section class="section-block directory-strip"><div><p class="eyebrow">РАЗДЕЛЫ</p><h2>Данные реестра</h2></div><div class="directory-links"><a href="{% url 'registry:plots' %}"><span>01</span> Участки <b>↗</b></a><a href="{% url 'registry:owners' %}"><span>02</span> Владельцы <b>↗</b></a><a href="{% url 'registry:payments' %}"><span>03</span> Платежи <b>↗</b></a><a href="{% url 'registry:leases' %}"><span>04</span> Аренда <b>↗</b></a></div></section>
 {% endblock %}

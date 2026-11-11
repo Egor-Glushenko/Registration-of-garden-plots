@@ -1,5 +1,16 @@
 [
-  {"id": 1, "plot_number": "15-А", "area_sqm": 600, "status": "occupied", "owner_id": 1, "debt": 0, "created_at": "2026-01-20T12:00:00"},
-  {"id": 2, "plot_number": "16-Б", "area_sqm": 800, "status": "free", "owner_id": null, "debt": 0, "created_at": "2026-01-20T12:00:00"},
-  {"id": 3, "plot_number": "22-В", "area_sqm": 1000, "status": "leased", "owner_id": 2, "debt": 1250, "created_at": "2026-01-20T12:00:00"}
+  {"id": 1, "plot_number": "12", "area_sqm": 600, "status": "free", "owner_id": null, "debt": 0, "created_at": "2026-01-20T12:00:00"},
+  {"id": 2, "plot_number": "13", "area_sqm": 650, "status": "occupied", "owner_id": 1, "debt": 0, "created_at": "2026-01-20T12:05:00"},
+  {"id": 3, "plot_number": "14", "area_sqm": 800, "status": "occupied", "owner_id": 2, "debt": 1250, "created_at": "2026-01-20T12:10:00"},
+  {"id": 4, "plot_number": "15-А", "area_sqm": 900, "status": "occupied", "owner_id": 3, "debt": 0, "created_at": "2026-01-21T10:00:00"},
+  {"id": 5, "plot_number": "16-Б", "area_sqm": 700, "status": "free", "owner_id": null, "debt": 0, "created_at": "2026-01-21T10:15:00"},
+  {"id": 6, "plot_number": "17", "area_sqm": 750, "status": "leased", "owner_id": 4, "debt": 3400, "created_at": "2026-01-22T09:00:00"},
+  {"id": 7, "plot_number": "18-А", "area_sqm": 1000, "status": "occupied", "owner_id": 5, "debt": 0, "created_at": "2026-01-22T09:20:00"},
+  {"id": 8, "plot_number": "19", "area_sqm": 620, "status": "disputed", "owner_id": 5, "debt": 4800, "created_at": "2026-01-23T13:40:00"},
+  {"id": 9, "plot_number": "20", "area_sqm": 850, "status": "occupied", "owner_id": 6, "debt": 0, "created_at": "2026-01-23T14:00:00"},
+  {"id": 10, "plot_number": "21-В", "area_sqm": 930, "status": "leased", "owner_id": 2, "debt": 2100, "created_at": "2026-01-24T10:30:00"},
+  {"id": 11, "plot_number": "22-В", "area_sqm": 1000, "status": "leased", "owner_id": 1, "debt": 0, "created_at": "2026-01-24T10:45:00"},
+  {"id": 12, "plot_number": "23", "area_sqm": 580, "status": "disputed", "owner_id": 6, "debt": 5200, "created_at": "2026-02-02T15:10:00"},
+  {"id": 13, "plot_number": "24-А", "area_sqm": 1100, "status": "occupied", "owner_id": 3, "debt": 0, "created_at": "2026-02-02T15:25:00"},
+  {"id": 14, "plot_number": "25", "area_sqm": 640, "status": "free", "owner_id": null, "debt": 0, "created_at": "2026-02-10T11:00:00"}
 ]

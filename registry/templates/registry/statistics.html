@@ -1,8 +1,39 @@
 {% extends 'base.html' %}{% load registry_labels %}
 {% block title %}Статистика — Садовый реестр{% endblock %}
 {% block content %}
-<section class="page-intro"><p class="eyebrow">АНАЛИТИКА / 01</p><h1>Статистика реестра</h1><p>Сводные показатели по участкам, владельцам и задолженности.</p></section>
-<div class="row g-3 mb-5">{% with s=stats.summary %}<div class="col-6 col-lg-3"><article class="metric"><span>Участки</span><strong>{{ s.plot_count|default:0 }}</strong></article></div><div class="col-6 col-lg-3"><article class="metric"><span>Владельцы</span><strong>{{ s.owner_count|default:0 }}</strong></article></div><div class="col-6 col-lg-3"><article class="metric"><span>Платежи</span><strong>{{ s.payment_count|default:0 }}</strong></article></div><div class="col-6 col-lg-3"><article class="metric metric-accent"><span>Общий долг</span><strong>{{ s.total_debt|default:0|floatformat:0 }} ₽</strong></article></div>{% endwith %}</div>
-<div class="row g-4"><section class="col-lg-6"><div class="section-heading compact"><div><p class="eyebrow">РАСПРЕДЕЛЕНИЕ</p><h2>По статусам</h2></div></div><div class="table-wrap"><table class="table registry-table"><thead><tr><th>Статус</th><th>Количество</th><th>Средняя площадь</th></tr></thead><tbody>{% for row in stats.by_status %}<tr><td><span class="status-pill status-{{ row.status }}">{{ row.status|status_label }}</span></td><td>{{ row.plot_count }}</td><td>{{ row.average_area|floatformat:0 }} м²</td></tr>{% empty %}<tr><td colspan="3" class="table-empty">Нет данных для анализа.</td></tr>{% endfor %}</tbody></table></div></section>
-<section class="col-lg-6"><div class="section-heading compact"><div><p class="eyebrow">КОНТРОЛЬ</p><h2>Задолженность</h2></div></div><div class="table-wrap"><table class="table registry-table"><thead><tr><th>Владелец</th><th>Участков</th><th class="text-end">Долг</th></tr></thead><tbody>{% for row in stats.top_debtors %}<tr><td>{{ row.full_name }}</td><td>{{ row.plot_count }}</td><td class="text-end">{{ row.total_debt|floatformat:0 }} ₽</td></tr>{% empty %}<tr><td colspan="3" class="table-empty">Задолженность отсутствует.</td></tr>{% endfor %}</tbody></table></div></section></div>
+<section class="page-intro"><p class="eyebrow">АНАЛИТИКА / 01</p><h1>Статистика реестра</h1><p>Сводные показатели по участкам, владельцам, аренде и задолженности.</p></section>
+<div class="row g-3 mb-5">{% with s=stats.summary %}
+  <div class="col-6 col-lg-3"><article class="metric"><span>Участки</span><strong>{{ s.plot_count|default:0 }}</strong><small>в реестре</small></article></div>
+  <div class="col-6 col-lg-3"><article class="metric"><span>Владельцы</span><strong>{{ s.owner_count|default:0 }}</strong><small>зарегистрировано</small></article></div>
+  <div class="col-6 col-lg-3"><article class="metric"><span>Действующие аренды</span><strong>{{ s.lease_count|default:0 }}</strong><small>активных записей</small></article></div>
+  <div class="col-6 col-lg-3"><article class="metric metric-accent"><span>Общий долг</span><strong>{{ s.total_debt|default:0|floatformat:0 }} ₽</strong><small>по участкам</small></article></div>
+{% endwith %}</div>
+<div class="row g-4">
+  <section class="col-lg-6"><div class="section-heading compact"><div><p class="eyebrow">РАСПРЕДЕЛЕНИЕ</p><h2>По статусам участков</h2></div></div>
+    <div class="table-wrap"><table class="table registry-table"><thead><tr><th>Статус</th><th>Количество</th><th>Средняя площадь</th><th class="text-end">Долг</th></tr></thead>
+      <tbody>{% for row in stats.by_status %}<tr><td><span class="status-pill status-{{ row.status }}">{{ row.status|status_label }}</span></td><td>{{ row.plot_count }}</td><td>{{ row.average_area|floatformat:0 }} м²</td><td class="text-end">{{ row.debt_total|default:0|floatformat:0 }} ₽</td></tr>{% empty %}<tr><td colspan="4" class="table-empty">Нет данных для анализа.</td></tr>{% endfor %}</tbody>
+    </table></div>
+  </section>
+  <section class="col-lg-6"><div class="section-heading compact"><div><p class="eyebrow">КОНТРОЛЬ</p><h2>Задолженность</h2></div></div>
+    <div class="table-wrap"><table class="table registry-table"><thead><tr><th>Владелец</th><th>Участков</th><th class="text-end">Долг</th></tr></thead>
+      <tbody>{% for row in stats.top_debtors %}<tr><td>{{ row.full_name }}</td><td>{{ row.plot_count }}</td><td class="text-end">{{ row.total_debt|default:0|floatformat:0 }} ₽</td></tr>{% empty %}<tr><td colspan="3" class="table-empty">Задолженность отсутствует.</td></tr>{% endfor %}</tbody>
+    </table></div>
+  </section>
+  <section class="col-lg-6"><div class="section-heading compact"><div><p class="eyebrow">АРЕНДА</p><h2>По статусам аренды</h2></div></div>
+    <div class="table-wrap"><table class="table registry-table"><thead><tr><th>Статус</th><th>Количество</th></tr></thead>
+      <tbody>{% for row in stats.leases_by_status %}<tr><td><span class="status-pill status-{{ row.status }}">{{ row.status }}</span></td><td>{{ row.total }}</td></tr>{% empty %}<tr><td colspan="2" class="table-empty">Арендных записей нет.</td></tr>{% endfor %}</tbody>
+    </table></div>
+  </section>
+  <section class="col-lg-6"><div class="section-heading compact"><div><p class="eyebrow">ПЛОЩАДЬ</p><h2>Границы и взносы</h2></div></div>
+    <div class="table-wrap"><table class="table registry-table"><thead><tr><th>Показатель</th><th class="text-end">Значение</th></tr></thead>
+      <tbody>
+        <tr><td>Наименьший участок</td><td class="text-end">{{ stats.area_bounds.smallest|default:0|floatformat:0 }} м²</td></tr>
+        <tr><td>Наибольший участок</td><td class="text-end">{{ stats.area_bounds.largest|default:0|floatformat:0 }} м²</td></tr>
+        <tr><td>Общая площадь</td><td class="text-end">{{ stats.summary.total_area|default:0|floatformat:0 }} м²</td></tr>
+        <tr><td>Средняя площадь</td><td class="text-end">{{ stats.summary.average_area|default:0|floatformat:0 }} м²</td></tr>
+        <tr><td>Проведённые платежи</td><td class="text-end">{{ stats.summary.payment_total|default:0|floatformat:0 }} ₽</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+</div>
 {% endblock %}
