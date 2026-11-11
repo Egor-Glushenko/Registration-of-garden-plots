@@ -15,6 +15,7 @@ media/
 .flake8
 .coverage
 htmlcov/
+reports/.preview/
 
 # Personal source records and generated reports; keep local source data private.
 data/*.json
