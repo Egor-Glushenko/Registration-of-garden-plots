@@ -375,6 +375,13 @@ class Lease(TimeStampedModel):
         default=LeaseStatus.ACTIVE,
         db_index=True,
     )
+    rent_amount = models.DecimalField(
+        "Арендная плата, ₽",
+        max_digits=10,
+        decimal_places=2,
+        default=Decimal("0.00"),
+        validators=[MinValueValidator(Decimal("0.00"))],
+    )
     note = models.CharField("Комментарий", max_length=200, blank=True)
 
     objects = LeaseManager()

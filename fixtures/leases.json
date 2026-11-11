@@ -1,7 +1,7 @@
 [
-  {"id": 1, "plot_id": 6, "owner_id": 4, "start_date": "2026-05-01", "end_date": "2026-09-30", "status": "completed", "note": "Аренда на сезон"},
-  {"id": 2, "plot_id": 6, "owner_id": 4, "start_date": "2026-10-01", "end_date": "2027-04-30", "status": "active", "note": "Продление на осенне-зимний период"},
-  {"id": 3, "plot_id": 10, "owner_id": 2, "start_date": "2026-06-01", "end_date": "2026-12-31", "status": "active", "note": "Договор аренды с июня"},
-  {"id": 4, "plot_id": 11, "owner_id": 1, "start_date": "2026-04-15", "end_date": "2026-10-15", "status": "cancelled", "note": "Отменена по заявлению арендатора"},
-  {"id": 5, "plot_id": 11, "owner_id": 1, "start_date": "2026-11-01", "end_date": "2027-03-31", "status": "active", "note": "Новый договор после отмены"}
+  {"id": 1, "plot_id": 6, "owner_id": 4, "start_date": "2026-05-01", "end_date": "2026-09-30", "status": "completed", "rent_amount": 9000, "note": "Аренда на сезон"},
+  {"id": 2, "plot_id": 6, "owner_id": 4, "start_date": "2026-10-01", "end_date": "2027-04-30", "status": "active", "rent_amount": 9000, "note": "Продление на осенне-зимний период"},
+  {"id": 3, "plot_id": 10, "owner_id": 2, "start_date": "2026-06-01", "end_date": "2026-12-31", "status": "active", "rent_amount": 11160, "note": "Договор аренды с июня"},
+  {"id": 4, "plot_id": 11, "owner_id": 1, "start_date": "2026-04-15", "end_date": "2026-10-15", "status": "cancelled", "rent_amount": 12000, "note": "Отменена по заявлению арендатора"},
+  {"id": 5, "plot_id": 11, "owner_id": 1, "start_date": "2026-11-01", "end_date": "2027-03-31", "status": "active", "rent_amount": 12000, "note": "Новый договор после отмены"}
 ]

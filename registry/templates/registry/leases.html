@@ -10,16 +10,17 @@
   {% if status or future %}<a class="clear-link" href="{% url 'registry:leases' %}">Сбросить</a>{% endif %}
 </form>
 <div class="table-wrap"><table class="table registry-table">
-<thead><tr><th>Участок</th><th>Арендатор</th><th>Начало</th><th>Окончание</th><th>Статус</th><th class="text-end">Дней</th><th></th></tr></thead>
+<thead><tr><th>Участок</th><th>Арендатор</th><th>Начало</th><th>Окончание</th><th>Статус</th><th class="text-end">Плата</th><th class="text-end">Дней</th><th></th></tr></thead>
 <tbody>{% for lease in leases %}<tr>
   <td><a class="row-link" href="{{ lease.plot.get_absolute_url }}">№ {{ lease.plot.plot_number }}</a></td>
   <td>{{ lease.owner.full_name }}</td>
   <td>{{ lease.start_date|date:'d.m.Y' }}</td>
   <td>{{ lease.end_date|date:'d.m.Y' }}</td>
   <td><span class="status-pill status-{{ lease.status }}">{{ lease.get_status_display }}</span></td>
+  <td class="text-end">{{ lease.rent_amount|floatformat:0 }} ₽</td>
   <td class="text-end">{{ lease.duration_days }}</td>
   <td><a class="arrow-link" href="{% url 'registry:lease_detail' lease.pk %}" aria-label="Открыть аренду">↗</a></td>
-</tr>{% empty %}<tr><td colspan="7"><div class="table-empty">Арендных записей по заданным условиям нет.</div></td></tr>{% endfor %}</tbody>
+</tr>{% empty %}<tr><td colspan="8"><div class="table-empty">Арендных записей по заданным условиям нет.</div></td></tr>{% endfor %}</tbody>
 </table></div>
 {% include 'includes/pagination.html' %}
 {% endblock %}

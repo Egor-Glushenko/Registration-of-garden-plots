@@ -60,6 +60,7 @@ class Command(BaseCommand):
                     "start_date": row["start_date"],
                     "end_date": row["end_date"],
                     "status": row.get("status", "active"),
+                    "rent_amount": row.get("rent_amount", 0),
                     "note": row.get("note", ""),
                 },
             )

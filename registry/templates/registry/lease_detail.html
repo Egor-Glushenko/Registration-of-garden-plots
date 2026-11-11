@@ -9,6 +9,7 @@
       <div><dt>Начало</dt><dd>{{ lease.start_date|date:'d.m.Y' }}</dd></div>
       <div><dt>Окончание</dt><dd>{{ lease.end_date|date:'d.m.Y' }}</dd></div>
       <div><dt>Длительность</dt><dd>{{ lease.duration_days }} дн.</dd></div>
+      <div><dt>Арендная плата</dt><dd>{{ lease.rent_amount|floatformat:0 }} ₽</dd></div>
       <div><dt>Статус</dt><dd><span class="status-pill status-{{ lease.status }}">{{ lease.get_status_display }}</span></dd></div>
       <div><dt>Комментарий</dt><dd>{{ lease.note|default:'—' }}</dd></div>
     </dl>

@@ -1,4 +1,5 @@
 """Settings for the garden plot registry."""
+import importlib.util
 import os
 import sys
 from pathlib import Path
@@ -39,6 +40,12 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+# Django Debug Toolbar analyses SQL only in the development mode (PR10, 5.4.1).
+if DEBUG and importlib.util.find_spec("debug_toolbar"):
+    INSTALLED_APPS.append("debug_toolbar")
+    MIDDLEWARE.insert(0, "debug_toolbar.middleware.DebugToolbarMiddleware")
+    INTERNAL_IPS = ["127.0.0.1", "localhost"]
+
 ROOT_URLCONF = "garden_site.urls"
 TEMPLATES = [{
     "BACKEND": "django.template.backends.django.DjangoTemplates",
@@ -48,6 +55,7 @@ TEMPLATES = [{
         "django.template.context_processors.request",
         "django.contrib.auth.context_processors.auth",
         "django.contrib.messages.context_processors.messages",
+        "registry.context_processors.registry_summary",
     ]},
 }]
 WSGI_APPLICATION = "garden_site.wsgi.application"
