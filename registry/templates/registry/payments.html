@@ -2,22 +2,26 @@
 {% block title %}Платежи — Садовый реестр{% endblock %}
 {% block content %}
 <section class="page-intro"><p class="eyebrow">РЕЕСТР / 03</p><h1>Платежи</h1><p>История поступлений с привязкой к владельцам.</p></section>
-<form class="filter-bar" method="get" action="{% url 'registry:payments' %}">
-  <label class="search-field"><span class="visually-hidden">Поиск</span><input type="search" name="q" value="{{ query }}" placeholder="Владелец или назначение"></label>
-  <label class="status-field"><span class="visually-hidden">Состояние</span><select name="status"><option value="">Все состояния</option>{% for key, label in statuses %}<option value="{{ key }}" {% if status == key %}selected{% endif %}>{{ label }}</option>{% endfor %}</select></label>
-  <label class="status-field"><span class="visually-hidden">Сортировка</span><select name="ordering">{% for key, label in orderings %}<option value="{{ key }}" {% if ordering == key %}selected{% endif %}>{{ label }}</option>{% endfor %}</select></label>
-  <button class="btn btn-primary" type="submit">Показать</button>
-  {% if query or status %}<a class="clear-link" href="{% url 'registry:payments' %}">Сбросить</a>{% endif %}
-</form>
+{% url 'registry:payments' as reset_url %}
+{% include 'registry/includes/filter_form.html' with action=reset_url reset_url=reset_url %}
+<div class="toolbar"><a class="btn btn-primary" href="{% url 'registry:payment_create' %}">Добавить платёж</a></div>
 <div class="table-wrap"><table class="table registry-table">
-<thead><tr><th>Дата</th><th>Владелец</th><th>Назначение</th><th>Состояние</th><th class="text-end">Сумма</th></tr></thead>
+<thead><tr><th>Дата</th><th>Владелец</th><th>Назначение</th><th>Состояние</th><th class="text-end">Сумма</th><th></th></tr></thead>
 <tbody>{% for payment in payments %}<tr>
   <td>{{ payment.payment_date|date:'d.m.Y' }}</td>
   <td>{{ payment.owner.full_name }}</td>
   <td>{{ payment.description }}</td>
   <td><span class="status-pill status-{{ payment.status }}">{{ payment.get_status_display }}</span></td>
   <td class="text-end">{{ payment.amount|floatformat:2 }} ₽</td>
-</tr>{% empty %}<tr><td colspan="5"><div class="table-empty">Платежей пока нет.</div></td></tr>{% endfor %}</tbody>
+  <td>
+    {% if payment.is_posted %}
+      <form class="inline-form" method="post" action="{% url 'registry:payment_cancel' payment.pk %}">
+        {% csrf_token %}
+        <button class="btn btn-danger btn-sm" type="submit">Отменить</button>
+      </form>
+    {% else %}<span class="muted">—</span>{% endif %}
+  </td>
+</tr>{% empty %}<tr><td colspan="6"><div class="table-empty">Платежей пока нет.</div></td></tr>{% endfor %}</tbody>
 </table></div>
 {% include 'includes/pagination.html' %}
 {% endblock %}

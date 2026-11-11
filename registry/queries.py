@@ -41,12 +41,15 @@ def _resolved(ordering, available, default):
     return available.get(ordering, available[default])
 
 
-def plot_page(status="", query="", ordering=DEFAULT_PLOT_ORDERING, owner=None, page=1, per_page=PER_PAGE):
+def plot_page(status="", query="", ordering=DEFAULT_PLOT_ORDERING, owner=None,
+              area_min=None, page=1, per_page=PER_PAGE):
     """Filtered, sorted and paginated plot list."""
     queryset = Plot.objects.with_owner().with_counters()
     queryset = queryset.of_status(status).search(query)
     if owner:
         queryset = queryset.filter(owner=owner)
+    if area_min:
+        queryset = queryset.filter(area_sqm__gte=area_min)
     queryset = queryset.order_by(*_resolved(ordering, PLOT_ORDERINGS, DEFAULT_PLOT_ORDERING))
     paginator = Paginator(queryset, per_page)
     return paginator.get_page(page)
@@ -72,7 +75,8 @@ def owner_page(query="", page=1, per_page=PER_PAGE):
     return Paginator(queryset, per_page).get_page(page)
 
 
-def payment_page(query="", status="", ordering=DEFAULT_PAYMENT_ORDERING, page=1, per_page=PER_PAGE):
+def payment_page(query="", status="", ordering=DEFAULT_PAYMENT_ORDERING, date_from=None,
+                 date_to=None, page=1, per_page=PER_PAGE):
     """Payment history with the related owner joined in one query."""
     queryset = Payment.objects.with_owner()
     if status:
@@ -81,6 +85,10 @@ def payment_page(query="", status="", ordering=DEFAULT_PAYMENT_ORDERING, page=1,
         queryset = queryset.filter(
             Q(owner__full_name__icontains=query) | Q(description__icontains=query)
         )
+    if date_from:
+        queryset = queryset.filter(payment_date__gte=date_from)
+    if date_to:
+        queryset = queryset.filter(payment_date__lte=date_to)
     queryset = queryset.order_by(*_resolved(ordering, PAYMENT_ORDERINGS, DEFAULT_PAYMENT_ORDERING))
     return Paginator(queryset, per_page).get_page(page)
 

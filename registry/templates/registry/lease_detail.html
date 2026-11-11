@@ -13,6 +13,16 @@
       <div><dt>Статус</dt><dd><span class="status-pill status-{{ lease.status }}">{{ lease.get_status_display }}</span></dd></div>
       <div><dt>Комментарий</dt><dd>{{ lease.note|default:'—' }}</dd></div>
     </dl>
+    <div class="toolbar">
+      <a class="btn btn-primary" href="{% url 'registry:lease_update' lease.pk %}">Изменить</a>
+      {% if lease.is_active %}
+        <form class="inline-form" method="post" action="{% url 'registry:lease_cancel' lease.pk %}">
+          {% csrf_token %}
+          <button class="btn btn-danger" type="submit">Отменить аренду</button>
+        </form>
+      {% endif %}
+    </div>
+    <p class="table-note">Отмена меняет статус записи на «Отменена» и освобождает участок; запись остаётся в архиве.</p>
   </article>
   <article class="detail-panel owner-panel">
     <p class="eyebrow">АРЕНДАТОР</p>

@@ -31,8 +31,8 @@ class PlotViewTests(TestCase):
 
     def test_unknown_status_is_ignored(self):
         response = self.client.get(reverse("registry:plots"), {"status": "broken"})
-        self.assertEqual(response.context["status"], "")
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.context["plots"]), 2)
 
     def test_invalid_page_number_is_safe(self):
         response = self.client.get(reverse("registry:plots"), {"page": "abc"})

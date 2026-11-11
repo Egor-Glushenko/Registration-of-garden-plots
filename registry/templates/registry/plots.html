@@ -2,13 +2,12 @@
 {% block title %}Участки — Садовый реестр{% endblock %}
 {% block content %}
 <section class="page-intro"><p class="eyebrow">РЕЕСТР / 01</p><h1>Садовые участки</h1><p>Площадь, статус, владелец и финансовая дисциплина.</p></section>
-<form class="filter-bar" method="get" action="{% url 'registry:plots' %}">
-  <label class="search-field"><span class="visually-hidden">Поиск</span><input type="search" name="q" value="{{ query }}" placeholder="Номер участка или владелец"></label>
-  <label class="status-field"><span class="visually-hidden">Статус участка</span><select name="status"><option value="">Все статусы</option>{% for key, label in statuses %}<option value="{{ key }}" {% if status == key %}selected{% endif %}>{{ label }}</option>{% endfor %}</select></label>
-  <label class="status-field"><span class="visually-hidden">Сортировка</span><select name="ordering">{% for key, label in orderings %}<option value="{{ key }}" {% if ordering == key %}selected{% endif %}>{{ label }}</option>{% endfor %}</select></label>
-  <button class="btn btn-primary" type="submit">Показать</button>
-  {% if query or status %}<a class="clear-link" href="{% url 'registry:plots' %}">Сбросить</a>{% endif %}
-</form>
+{% url 'registry:plots' as reset_url %}
+{% include 'registry/includes/filter_form.html' with action=reset_url reset_url=reset_url %}
+<div class="toolbar">
+  <a class="btn btn-primary" href="{% url 'registry:plot_create' %}">Добавить участок</a>
+  {% if has_filters %}<span class="table-note">Фильтр применён · записей: {{ page_obj.paginator.count }}</span>{% endif %}
+</div>
 <div class="table-wrap"><table class="table registry-table">
 <thead><tr><th>Участок</th><th>Площадь</th><th>Статус</th><th>Владелец</th><th>Аренда</th><th class="text-end">Долг</th><th></th></tr></thead>
 <tbody>

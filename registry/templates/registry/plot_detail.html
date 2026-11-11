@@ -2,6 +2,10 @@
 {% block title %}Участок №{{ plot.plot_number }} — Садовый реестр{% endblock %}
 {% block content %}
 <section class="page-intro"><p class="eyebrow"><a href="{% url 'registry:plots' %}">УЧАСТКИ</a> / КАРТОЧКА</p><h1>Участок № {{ plot.plot_number }}</h1><p>Карточка участка, владелец и связанные записи реестра.</p></section>
+<div class="toolbar">
+  <a class="btn btn-primary" href="{% url 'registry:plot_update' plot.slug %}">Изменить участок</a>
+  <a class="btn-outline" href="{% url 'registry:lease_create' %}?plot={{ plot.pk }}">Оформить аренду</a>
+</div>
 <div class="detail-grid">
   <article class="detail-panel">
     <p class="eyebrow">ПАРАМЕТРЫ</p>
@@ -26,18 +30,18 @@
       <p>{{ plot.owner.phone }}</p>
       <p>{{ plot.owner.email|default:'Электронная почта не указана' }}</p>
       <p class="muted">Всего участков: {{ plot.owner.plot_count }}</p>
+      <a class="text-link" href="{% url 'registry:owner_update' plot.owner.pk %}">Изменить владельца <span>→</span></a>
     {% else %}
       <h2>Владелец не назначен</h2>
       <p>Участок доступен для закрепления.</p>
     {% endif %}
-    <a class="text-link" href="{% url 'registry:owners' %}">Все владельцы <span>→</span></a>
   </article>
 </div>
 
 <section class="section-block">
   <div class="section-heading compact"><div><p class="eyebrow">СВЯЗИ</p><h2>История аренды</h2></div><a class="text-link" href="{% url 'registry:leases' %}?plot={{ plot.pk }}">Все аренды участка <span>→</span></a></div>
   <div class="table-wrap"><table class="table registry-table">
-    <thead><tr><th>Начало</th><th>Окончание</th><th>Арендатор</th><th>Статус</th><th class="text-end">Дней</th></tr></thead>
+    <thead><tr><th>Начало</th><th>Окончание</th><th>Арендатор</th><th>Статус</th><th class="text-end">Дней</th><th></th></tr></thead>
     <tbody>
     {% for lease in leases %}<tr>
       <td>{{ lease.start_date|date:'d.m.Y' }}</td>
@@ -45,7 +49,8 @@
       <td>{{ lease.owner.full_name }}</td>
       <td><span class="status-pill status-{{ lease.status }}">{{ lease.get_status_display }}</span></td>
       <td class="text-end">{{ lease.duration_days }}</td>
-    </tr>{% empty %}<tr><td colspan="5"><div class="table-empty">Арендных записей нет.</div></td></tr>{% endfor %}
+      <td><a class="arrow-link" href="{% url 'registry:lease_detail' lease.pk %}" aria-label="Открыть аренду">↗</a></td>
+    </tr>{% empty %}<tr><td colspan="6"><div class="table-empty">Арендных записей нет.</div></td></tr>{% endfor %}
     </tbody>
   </table></div>
 </section>

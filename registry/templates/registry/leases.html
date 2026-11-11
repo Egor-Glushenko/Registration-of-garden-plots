@@ -2,13 +2,9 @@
 {% block title %}Аренда участков — Садовый реестр{% endblock %}
 {% block content %}
 <section class="page-intro"><p class="eyebrow">РЕЕСТР / 04</p><h1>Аренда участков</h1><p>Действующие и отменённые аренды: только активная запись блокирует участок.</p></section>
-<form class="filter-bar" method="get" action="{% url 'registry:leases' %}">
-  <label class="status-field"><span class="visually-hidden">Статус аренды</span><select name="status"><option value="">Все статусы</option>{% for key, label in statuses %}<option value="{{ key }}" {% if status == key %}selected{% endif %}>{{ label }}</option>{% endfor %}</select></label>
-  <label class="status-field"><span class="visually-hidden">Сортировка</span><select name="ordering">{% for key, label in orderings %}<option value="{{ key }}" {% if ordering == key %}selected{% endif %}>{{ label }}</option>{% endfor %}</select></label>
-  <label class="checkbox-field"><input type="checkbox" name="future" value="1" {% if future %}checked{% endif %}> Только действующие и будущие</label>
-  <button class="btn btn-primary" type="submit">Показать</button>
-  {% if status or future %}<a class="clear-link" href="{% url 'registry:leases' %}">Сбросить</a>{% endif %}
-</form>
+{% url 'registry:leases' as reset_url %}
+{% include 'registry/includes/filter_form.html' with action=reset_url %}
+<div class="toolbar"><a class="btn btn-primary" href="{% url 'registry:lease_create' %}">Оформить аренду</a></div>
 <div class="table-wrap"><table class="table registry-table">
 <thead><tr><th>Участок</th><th>Арендатор</th><th>Начало</th><th>Окончание</th><th>Статус</th><th class="text-end">Плата</th><th class="text-end">Дней</th><th></th></tr></thead>
 <tbody>{% for lease in leases %}<tr>

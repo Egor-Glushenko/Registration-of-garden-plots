@@ -1,0 +1,14 @@
+{% if form.non_field_errors %}
+  <div class="form-errors" role="alert">
+    <strong>Форма не может быть сохранена:</strong>
+    <ul>{% for error in form.non_field_errors %}<li>{{ error }}</li>{% endfor %}</ul>
+  </div>
+{% endif %}
+{% for field in form %}
+  <div class="form-row">
+    {{ field.label_tag }}
+    {{ field }}
+    {% if field.help_text %}<div class="help-text">{{ field.help_text }}</div>{% endif %}
+    {% if field.errors %}<ul class="errorlist">{% for error in field.errors %}<li>{{ error }}</li>{% endfor %}</ul>{% endif %}
+  </div>
+{% endfor %}
