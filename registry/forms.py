@@ -111,12 +111,12 @@ class PaymentFilterForm(BootstrapFormMixin, forms.Form):
     date_from = forms.DateField(
         label="Платежи с",
         required=False,
-        widget=forms.DateInput(attrs={"type": "date"}),
+        widget=forms.DateInput(format="%Y-%m-%d", attrs={"type": "date"}),
     )
     date_to = forms.DateField(
         label="Платежи по",
         required=False,
-        widget=forms.DateInput(attrs={"type": "date"}),
+        widget=forms.DateInput(format="%Y-%m-%d", attrs={"type": "date"}),
     )
 
     def __init__(self, *args, **kwargs):
@@ -159,12 +159,12 @@ class LeaseFilterForm(BootstrapFormMixin, forms.Form):
     date_from = forms.DateField(
         label="Период с",
         required=False,
-        widget=forms.DateInput(attrs={"type": "date"}),
+        widget=forms.DateInput(format="%Y-%m-%d", attrs={"type": "date"}),
     )
     date_to = forms.DateField(
         label="Период по",
         required=False,
-        widget=forms.DateInput(attrs={"type": "date"}),
+        widget=forms.DateInput(format="%Y-%m-%d", attrs={"type": "date"}),
     )
 
     def __init__(self, *args, **kwargs):
@@ -278,7 +278,7 @@ class PaymentForm(BootstrapFormMixin, forms.ModelForm):
         }
         widgets = {
             "amount": forms.NumberInput(attrs={"step": "0.01", "min": "0.01"}),
-            "payment_date": forms.DateInput(attrs={"type": "date"}),
+            "payment_date": forms.DateInput(format="%Y-%m-%d", attrs={"type": "date"}),
             "description": forms.TextInput(attrs={"placeholder": "Членский взнос за 2026 год"}),
         }
 
@@ -322,8 +322,8 @@ class LeaseForm(BootstrapFormMixin, forms.ModelForm):
             "rent_amount": "Сумма договора аренды за период.",
         }
         widgets = {
-            "start_date": forms.DateInput(attrs={"type": "date"}),
-            "end_date": forms.DateInput(attrs={"type": "date"}),
+            "start_date": forms.DateInput(format="%Y-%m-%d", attrs={"type": "date"}),
+            "end_date": forms.DateInput(format="%Y-%m-%d", attrs={"type": "date"}),
             "rent_amount": forms.NumberInput(attrs={"step": "0.01", "min": "0"}),
             "note": forms.TextInput(attrs={"placeholder": "Например: договор на сезон"}),
         }
@@ -344,26 +344,13 @@ class LeaseForm(BootstrapFormMixin, forms.ModelForm):
 
     def clean(self):
         cleaned = super().clean()
-        plot = cleaned.get("plot")
         start_date = cleaned.get("start_date")
         end_date = cleaned.get("end_date")
         if start_date and end_date and end_date < start_date:
             self.add_error("end_date", "Дата окончания не может быть раньше даты начала.")
-            return cleaned
-        if plot and start_date and end_date and self._period_is_busy(plot, start_date, end_date):
-            raise ValidationError(
-                "На выбранные даты участок уже арендован. Выберите другой участок или период."
-            )
+        # The plot availability rule lives in Lease.clean(): ModelForm calls
+        # full_clean() and adds the model error as a common form error once.
         return cleaned
-
-    def _period_is_busy(self, plot, start_date, end_date):
-        """Check active leases of the plot, excluding the edited record itself."""
-        conflict = (
-            Lease.objects.active()
-            .filter(plot=plot, start_date__lte=end_date, end_date__gte=start_date)
-            .exclude(pk=self.instance.pk)
-        )
-        return conflict.exists()
 
 
 class CancelForm(forms.Form):
